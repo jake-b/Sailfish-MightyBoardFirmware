@@ -1,17 +1,20 @@
 #include "InterfaceBoard.hh"
 #include "Configuration.hh"
-#include "LiquidCrystalSerial.hh"
+#include "VirtualDisplay.hh"
 #include "Host.hh"
 #include "Timeout.hh"
 #include "Command.hh"
 #include "Motherboard.hh"
+#ifdef HAS_VIKI2_INTERFACE
+#include "Viki2Interface.hh"
+#endif
 
 #if defined HAS_INTERFACE_BOARD
 
 Timeout button_timeout;
 
 InterfaceBoard::InterfaceBoard(ButtonArray& buttons_in,
-                               LiquidCrystalSerial& lcd_in,
+                               VirtualDisplay& lcd_in,
                                Screen* mainScreen_in,
                                Screen* buildScreen_in,
                                MessageScreen* messageScreen_in,
@@ -190,6 +193,9 @@ void InterfaceBoard::doUpdate() {
 
         // update build data
         screenStack[screenIndex]->update(lcd, forceRedraw);
+#if HAS_VIKI2_INTERFACE
+				((Viki2Interface*)&lcd)->draw();
+#endif				
     }
 }
 
@@ -212,6 +218,9 @@ void InterfaceBoard::pushScreen(Screen* newScreen) {
 	buttons.setButtonDelay(ButtonArray::SlowDelay);
 	screenStack[screenIndex]->reset();
 	screenStack[screenIndex]->update(lcd, true);
+#if HAS_VIKI2_INTERFACE
+	((Viki2Interface*)&lcd)->draw();
+#endif
 }
 
 void InterfaceBoard::popScreen() {
@@ -222,6 +231,10 @@ void InterfaceBoard::popScreen() {
 	}
 	buttons.setButtonDelay(ButtonArray::SlowDelay);
 	screenStack[screenIndex]->update(lcd, true);
+#if HAS_VIKI2_INTERFACE
+	((Viki2Interface*)&lcd)->draw();
+#endif
+	
 }
 
 

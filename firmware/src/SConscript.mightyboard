@@ -96,6 +96,7 @@ has_analog_buttons = ARGUMENTS.get('has_analog_buttons','0')
 
 # ViKi interface
 has_viki_interface = ARGUMENTS.get('has_viki_interface','0')
+has_viki2_interface = ARGUMENTS.get('has_viki2_interface','0')
 
 # Alternate UART
 alt_uart = ARGUMENTS.get('alt_uart','0')
@@ -211,7 +212,7 @@ else:
 
 target_name = platform+max31855+"_v"+str(int(version[0]))+"."+str(int(version[1]))+"."+str(int(version[2]))+broken_str
 
-include_paths = ['MightyBoard/shared', 'MightyBoard/Motherboard', 'MightyBoard/shared/locale', 'MightyBoard/Motherboard/avrfix', 'MightyBoard/Motherboard/boards/%s' %board_directory, '.']
+include_paths = ['MightyBoard/shared', 'MightyBoard/shared/u8glib', 'MightyBoard/Motherboard', 'MightyBoard/shared/locale', 'MightyBoard/Motherboard/avrfix', 'MightyBoard/Motherboard/boards/%s' %board_directory, '.']
 
 if broken_sd == '1':
    flags.append('-DBROKEN_SD')
@@ -237,6 +238,11 @@ if (has_analog_buttons == '1'):
 
 if (has_viki_interface == '1'):
    flags.append('-DHAS_VIKI_INTERFACE')
+
+if (has_viki2_interface == '1'):
+   flags.append('-DHAS_VIKI2_INTERFACE')
+   flags.append('-Wl,--relax');
+   flags.append('-fpermissive')
 
 if (has_viki_interface == 'ENABLE_PULLUPS'):
    flags.append('-DHAS_VIKI_INTERFACE')
@@ -297,6 +303,7 @@ objs = [ env.Object(env.GlobOmit('*.cc', squeeze_srcs) +
                     env.GlobOmit('MightyBoard/Motherboard/boards/%s/*.cc' % board_directory, squeeze_srcs) +
                     env.GlobOmit('MightyBoard/Motherboard/lib_sd/*.c', squeeze_srcs) +
                     env.GlobOmit('MightyBoard/shared/*.cc', squeeze_srcs) +
+                    env.GlobOmit('MightyBoard/shared/u8glib/*.c', squeeze_srcs) +
                     env.GlobOmit('MightyBoard/shared/locale/%s' % localefile, squeeze_srcs) +
                     env.GlobOmit('MightyBoard/Motherboard/avrfix/*.c', squeeze_srcs)),
          env_sqz.Object(env_sqz.GlobKeep('*.cc', squeeze_srcs) +
@@ -304,6 +311,7 @@ objs = [ env.Object(env.GlobOmit('*.cc', squeeze_srcs) +
                         env_sqz.GlobKeep('MightyBoard/Motherboard/boards/%s/*.cc' % board_directory, squeeze_srcs) +
                         env_sqz.GlobKeep('MightyBoard/Motherboard/lib_sd/*.c', squeeze_srcs) +
                         env_sqz.GlobKeep('MightyBoard/shared/*.cc', squeeze_srcs) +
+                        env_sqz.GlobKeep('MightyBoard/shared/u8glib/*.c', squeeze_srcs) +                        
                         env_sqz.GlobKeep('MightyBoard/shared/locale/%s' % localefile, squeeze_srcs) +
                         env_sqz.GlobKeep('MightyBoard/Motherboard/avrfix/*.c', squeeze_srcs)) ]
 
@@ -315,7 +323,7 @@ hex_name = target_name + '.hex'
 elf_name = target_name + '.elf'
 map_name = target_name + '.map'
 
-env.Append(BUILDERS={'Elf':Builder(action=avr_tools_path+"/avr-gcc -mmcu="+mcu+" -Os -Wl,--gc-sections -Wl,-Map,"+map_name+" -o $TARGET $SOURCES -lm")})
+env.Append(BUILDERS={'Elf':Builder(action=avr_tools_path+"/avr-gcc -mmcu="+mcu+" -Os -Wl,--relax -Wl,--gc-sections -Wl,-Map,"+map_name+" -o $TARGET $SOURCES -lm")})
 env.Append(BUILDERS={'Hex':Builder(action=avr_tools_path+"/avr-objcopy -O ihex -R .eeprom $SOURCES $TARGET")})
 env.Elf(elf_name, objs)
 env.Hex(hex_name, elf_name)

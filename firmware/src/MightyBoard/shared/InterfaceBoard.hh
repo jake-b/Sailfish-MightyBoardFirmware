@@ -34,7 +34,7 @@
 /// \ingroup HardwareLibraries
 class InterfaceBoard {
 public:
-        LiquidCrystalSerial& lcd;              ///< LCD to write to
+        VirtualDisplay& lcd;              ///< LCD to write to
 private:
         ButtonArray& buttons;            ///< Button array to read from
 
@@ -76,7 +76,7 @@ public:
         /// \param[in] Main screen, shown as root display
         /// \param[in] Screen to display while building
         InterfaceBoard(ButtonArray& buttons_in,
-                       LiquidCrystalSerial& lcd_in,
+                       VirtualDisplay& lcd_in,
                        Screen* mainScreen_in,
                        Screen* buildScreen_in,
                        MessageScreen* messageScreen_in,

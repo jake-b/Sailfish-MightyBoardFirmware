@@ -23,7 +23,7 @@
 
 // Electronics type
 #define BOARD_TYPE		BOARD_TYPE_AZTEEG_X3
-#define HAS_VIKI_INTERFACE	1
+#define HAS_VIKI2_INTERFACE	1
 #define ENABLE_I2C_PULLUPS	1
 
 // Swap the Azteeg X3's X & Y min and max endstops
@@ -191,6 +191,22 @@
 #define VIKI_ENC_PIN_B		PINH
 #define VIKI_ENC_MASK_B		0b00010000
 
+// PB7
+#define VIKI_CENTER_BUTTON_MASK 0b01000000
+#define VIKI_CENTER_BUTTON_PORT PORTB
+#define VIKI_CENTER_BUTTON_DDR  DDRB
+#define VIKI_CENTER_BUTTON_PIN  PINB
+
+#define VIKI_DISPLAY_CS_PORT PORTC
+#define VIKI_DISPLAY_CS_MASK 0b00100000
+#define VIKI_DISPLAY_CS_DDR  DDRC
+#define VIKI_DISPLAY_CS_PN   PN(2,5)  //Used by u8g
+
+#define VIKI_DISPLAY_A0_PORT PORTC
+#define VIKI_DISPLAY_A0_MASK 0b01000000
+#define VIKI_DISPLAY_A0_DDR  DDRC
+#define VIKI_DISPLAY_A0_PN   PN(2,6) //Used by u8g
+
 #define DIGIPOT_SUPPORT		1
 
 #define X_POT_PIN		0 // P0W on MCP4451 00 (A1=0 A0=0)
@@ -243,11 +259,11 @@
 #define HONOR_DEBUG_PACKETS	0
 
 #define HAS_INTERFACE_BOARD	1
-#define HAS_VIKI_INTERFACE	1
+//#define HAS_VIKI_INTERFACE	1
 
 /// Character LCD screen geometry
 #define LCD_SCREEN_WIDTH	20
-#define LCD_SCREEN_HEIGHT	4
+#define LCD_SCREEN_HEIGHT	6
 
 ///// **** HBP and Extruder  ***************/////
 

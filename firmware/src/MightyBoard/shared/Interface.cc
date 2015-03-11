@@ -2,10 +2,13 @@
 #include "Interface.hh"
 #include "InterfaceBoard.hh"
 #include "Configuration.hh"
+#include "VirtualDisplay.hh"
 #if defined(HAS_I2C_LCD)
 #include "LiquidCrystalSerial_I2C.hh"
 #elif defined(HAS_VIKI_INTERFACE)
 #include "VikiInterface.hh"
+#elif defined(HAS_VIKI2_INTERFACE)
+#include "Viki2Interface.hh"
 #endif
 
 // TODO: Make this a proper module.
@@ -14,7 +17,7 @@
 namespace interface {
 
 
-LiquidCrystalSerial* lcd;
+VirtualDisplay* lcd;
 InterfaceBoard* board;
 
 bool isConnected() {
@@ -31,6 +34,11 @@ bool isConnected() {
 	  return true;  
      else
 	  return false;
+#elif defined(HAS_VIKI2_INTERFACE)
+     if (((Viki2Interface*)lcd)->hasI2CDisplay()) 
+	  return true;  
+     else
+	  return false; 
 #else
      // Avoid repeatedly creating temp objects
      const Pin InterfaceDetect = INTERFACE_DETECT;
@@ -47,7 +55,7 @@ bool isConnected() {
 #endif
 }
 
-void init(InterfaceBoard* board_in, LiquidCrystalSerial* lcd_in) {
+void init(InterfaceBoard* board_in, VirtualDisplay* lcd_in) {
     board = board_in;
     lcd = lcd_in;
 }

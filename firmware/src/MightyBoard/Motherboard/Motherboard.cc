@@ -121,7 +121,7 @@ Motherboard::Motherboard() :
      therm_sensor(),
 #endif
 #endif
-#if defined(HAS_I2C_LCD) || defined(HAS_VIKI_INTERFACE)
+#if defined(HAS_I2C_LCD) || defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)
      lcd(),
 #else
      lcd(LCD_STROBE, LCD_DATA, LCD_CLK),
@@ -129,7 +129,7 @@ Motherboard::Motherboard() :
      messageScreen(),
      mainMenu(),
      finishedPrintMenu(),
-#if defined(HAS_VIKI_INTERFACE)
+#if defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)
      //The ViKi is both an LCD and a buttonArray, so pass it twice.
      interfaceBoard(lcd, lcd, &mainMenu, &monitorModeScreen,
 		    &messageScreen, &finishedPrintMenu),

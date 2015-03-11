@@ -29,6 +29,8 @@
 #include "LiquidCrystalSerial_I2C.hh"
 #elif defined(HAS_VIKI_INTERFACE)
 #include "VikiInterface.hh"
+#elif defined(HAS_VIKI2_INTERFACE)
+#include "Viki2Interface.hh"
 #else
 #include "StandardLiquidCrystalSerial.hh"
 #endif
@@ -47,7 +49,7 @@
 
 #ifdef HAS_ANALOG_BUTTONS
 #include "AnalogButtonArray.hh"
-#elif HAS_VIKI_INTERFACE
+#elif defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)
 #include "ButtonArray.hh"
 #else
 #include "StandardButtonArray.hh"
@@ -136,9 +138,12 @@ private:
 	bool hasInterfaceBoard;
 
 #if defined(HAS_I2C_LCD)
+#warn I2C
 	LiquidCrystalSerial_I2C lcd;
 #elif defined(HAS_VIKI_INTERFACE)
   VikiInterface lcd;
+#elif defined(HAS_VIKI2_INTERFACE)
+	Viki2Interface lcd;
 #else
   StandardLiquidCrystalSerial lcd;
 #endif
@@ -163,7 +168,7 @@ public:
 
 #if defined(HAS_ANALOG_BUTTONS)
 	AnalogButtonArray buttonArray;
-#elif defined(HAS_VIKI_INTERFACE)
+#elif defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)
   //#define buttonArray lcd
 #else
 	StandardButtonArray buttonArray;

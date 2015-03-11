@@ -1,13 +1,13 @@
 // JogModeScreen
 // ProfileChangeNameModeScreen
-// PauseAtZPosScreen
 
+// PauseAtZPosScreen
 #ifndef MENU_HH_
 #define MENU_HH_
 
 #include "Types.hh"
 #include "ButtonArray.hh"
-#include "LiquidCrystalSerial.hh"
+#include "VirtualDisplay.hh"
 #include "Configuration.hh"
 #include "CircularBuffer.hh"
 #include "Timeout.hh"
@@ -69,7 +69,7 @@ public:
         /// \param[in] lcd LCD to write to
         /// \param[in] forceRedraw if true, redraw the entire screen. If false,
         ///                        only updated sections need to be redrawn.
-	virtual void update(LiquidCrystalSerial& lcd, bool forceRedraw) = 0;
+	virtual void update(VirtualDisplay& lcd, bool forceRedraw) = 0;
 
         /// Reset the screen to it's default state
 	virtual void reset() = 0;
@@ -111,7 +111,7 @@ public:
 
 	micros_t getUpdateRate() {return 500L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -133,7 +133,7 @@ protected:
         /// Draw an item at the current cursor position.
         /// \param[in] index Index of the item to draw
         /// \param[in] LCD screen to draw onto
-	virtual void drawItem(uint8_t index, LiquidCrystalSerial& lcd) = 0;
+	virtual void drawItem(uint8_t index, VirtualDisplay& lcd) = 0;
 
         /// Handle selection of a menu item
         /// \param[in] index Index of the menu item that was selected
@@ -159,7 +159,7 @@ protected:
 	void reset();
 
     // must be virtual for derived classes
-	virtual void drawItem(uint8_t index, LiquidCrystalSerial& lcd) { }
+	virtual void drawItem(uint8_t index, VirtualDisplay& lcd) { }
 	virtual void handleCounterUpdate(uint8_t index, int8_t up) { }
 };
 
@@ -173,7 +173,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -194,7 +194,7 @@ public:
 	uint8_t state;
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 };
@@ -211,7 +211,7 @@ private:
 public:
 	micros_t getUpdateRate() {return 500L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -228,7 +228,7 @@ public:
 
 	void setScript(uint8_t script);
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -257,7 +257,7 @@ public:
         FilamentMenu();
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -278,7 +278,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -297,7 +297,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -317,7 +317,7 @@ public:
 
      micros_t getUpdateRate() {return 50L * 1000L;}
      
-     void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+     void update(VirtualDisplay& lcd, bool forceRedraw);
 
      void reset();
 
@@ -339,7 +339,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -359,7 +359,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -378,7 +378,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -405,7 +405,7 @@ public:
 	micros_t getUpdateRate() {return 100L * 1000L;}
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 };
@@ -442,7 +442,7 @@ public:
 
 	micros_t getUpdateRate() {return 100L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -480,7 +480,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -495,7 +495,7 @@ private:
 public:
 	micros_t getUpdateRate() {return 500L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -513,10 +513,10 @@ public:
 
 	void notifyButtonPressed(ButtonArray::ButtonName button);
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -539,7 +539,7 @@ public:
 
 	void resetState();
 
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 };
@@ -557,7 +557,7 @@ protected:
 
 	void resetState();
 
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -575,7 +575,7 @@ public:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -604,7 +604,7 @@ protected:
 
 	micros_t getUpdateRate() {return 50L * 1000L;}
 
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -619,7 +619,7 @@ public:
 	void resetState();
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 };
@@ -639,7 +639,7 @@ public:
 
         micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -663,7 +663,7 @@ public:
         uint8_t profileIndex;
 
 protected:
-        void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+        void drawItem(uint8_t index, VirtualDisplay& lcd);
 };
 
 class ProfileSubMenu: public Menu {
@@ -674,7 +674,7 @@ public:
 
         uint8_t profileIndex;
 protected:
-        void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+        void drawItem(uint8_t index, VirtualDisplay& lcd);
 
         void handleSelect(uint8_t index);
 };
@@ -687,7 +687,7 @@ public:
         void resetState();
 
 protected:
-        void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+        void drawItem(uint8_t index, VirtualDisplay& lcd);
 
         void handleSelect(uint8_t index);
 };
@@ -715,7 +715,7 @@ public:
 
         micros_t getUpdateRate() {return 50L * 1000L;}
 
-        void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+        void update(VirtualDisplay& lcd, bool forceRedraw);
 
         void reset();
 
@@ -748,7 +748,7 @@ private:
 public:
 	micros_t getUpdateRate() {return 500L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -762,7 +762,7 @@ class HeaterPreheatMenu: public Menu {
 public:
         HeaterPreheatMenu();
 
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -783,7 +783,7 @@ public:
 protected:
 	void resetState();
 
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -831,11 +831,11 @@ public:
         void resetState();
 
 protected:
-        void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+        void drawItem(uint8_t index, VirtualDisplay& lcd);
 
         void handleSelect(uint8_t index);
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void notifyButtonPressed(ButtonArray::ButtonName button);
 
@@ -854,7 +854,7 @@ class BotStatsScreen: public Screen {
 public:
 	micros_t getUpdateRate() {return 500L * 1000L;}
 
-	void update(LiquidCrystalSerial& lcd, bool forceRedraw);
+	void update(VirtualDisplay& lcd, bool forceRedraw);
 
 	void reset();
 
@@ -869,7 +869,7 @@ public:
 	micros_t getUpdateRate() {return 100L * 1000L;}
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 
@@ -888,7 +888,7 @@ public:
 	micros_t getUpdateRate() {return 200L * 1000L;}
 
 protected:
-	void drawItem(uint8_t index, LiquidCrystalSerial& lcd);
+	void drawItem(uint8_t index, VirtualDisplay& lcd);
 
 	void handleSelect(uint8_t index);
 

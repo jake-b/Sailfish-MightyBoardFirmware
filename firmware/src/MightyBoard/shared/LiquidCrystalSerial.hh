@@ -35,6 +35,8 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
 #include "Pin.hh"
+#include "VirtualDisplay.hh"
+
 
 // commands
 #define LCD_CLEARDISPLAY 0x01
@@ -71,29 +73,10 @@
 #define LCD_4BITMODE 0x00
 #define LCD_2LINE 0x08
 #define LCD_1LINE 0x00
-#define LCD_5x10DOTS 0x04
-#define LCD_5x8DOTS 0x00
-
-// Custom chars
-// Unlike the Gen 4 LCD, this module -- ACM2004 series -- this
-// LCD display module only provides 8 custom characters and
-// n % 8 == n
-
-#define LCD_CUSTOM_CHAR_DOWN 0
-#define LCD_CUSTOM_CHAR_EXTRUDER_NORMAL 2
-#define LCD_CUSTOM_CHAR_EXTRUDER_HEATING 3
-#define LCD_CUSTOM_CHAR_PLATFORM_NORMAL 4
-#define LCD_CUSTOM_CHAR_PLATFORM_HEATING 5
-#define LCD_CUSTOM_CHAR_FOLDER 6 // Must not be 0
-#define LCD_CUSTOM_CHAR_RETURN 7 // Must not be 0
-
-#define LCD_CUSTOM_CHAR_DEGREE 0xdf // MAY ALSO BE 0xdf
-#define LCD_CUSTOM_CHAR_UP 0x5e     // ^
-#define LCD_CUSTOM_CHAR_RIGHT 0x7e // right pointing arrow (0x7f is left pointing)
 
 // TODO:  make variable names for rs, rw, e places in the output vector
 
-class LiquidCrystalSerial {
+class LiquidCrystalSerial :  public VirtualDisplay {
 
 public:
   LiquidCrystalSerial();

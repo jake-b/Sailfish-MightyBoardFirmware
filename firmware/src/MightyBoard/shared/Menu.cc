@@ -129,7 +129,7 @@ static bool toggleBlink;
 //Renamed to zabs because of conflict with stdlib.h abs
 #define zabs(X) ((X) < 0 ? -(X) : (X))
 
-static void buildInfo(LiquidCrystalSerial& lcd)
+static void buildInfo(VirtualDisplay& lcd)
 {
 #ifdef HAS_RGB_LED
 	RGB_LED::setDefaultColor();
@@ -162,7 +162,7 @@ static void buildInfo(LiquidCrystalSerial& lcd)
 	}
 }
 
-static void progressBar(LiquidCrystalSerial& lcd, int16_t delta,
+static void progressBar(VirtualDisplay& lcd, int16_t delta,
 			int16_t setTemp)
 {
 	if ( setTemp <= 0 ) return;
@@ -248,7 +248,7 @@ static void digits2(char *buf, uint8_t val)
 	buf[2] = '\0';
 }
 
-static bool writeTimeLeft(LiquidCrystalSerial& lcd, uint8_t row) {
+static bool writeTimeLeft(VirtualDisplay& lcd, uint8_t row) {
      char buf[17];
      int32_t tsecs;
 
@@ -275,7 +275,7 @@ static bool writeTimeLeft(LiquidCrystalSerial& lcd, uint8_t row) {
 
 #endif
 
-void writeZPos(LiquidCrystalSerial& lcd, uint8_t row) {
+void writeZPos(VirtualDisplay& lcd, uint8_t row) {
      uint8_t dummy;
      Point position;
 
@@ -290,7 +290,7 @@ void writeZPos(LiquidCrystalSerial& lcd, uint8_t row) {
      lcd.writeFromPgmspace(MILLIMETERS_MSG);
 }
 
-void SplashScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void SplashScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 
 	if (forceRedraw) {
 	        lcd.clearHomeCursor();
@@ -360,7 +360,7 @@ void HeaterPreheatMenu::resetState(){
 	if ( !hasHBP ) itemCount--;
 }
 
-void HeaterPreheatMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void HeaterPreheatMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	const prog_uchar *msg;
 	bool test;
 
@@ -470,7 +470,7 @@ void HeaterPreheatMenu::handleSelect(uint8_t index) {
 #ifndef SINGLE_EXTRUDER
 #ifdef NOZZLE_CALIBRATION_SCRIPT
 
-void NozzleCalibrationScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void NozzleCalibrationScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if ( forceRedraw || needsRedraw ) {
 		const prog_uchar *msg;
 		needsRedraw = false;
@@ -556,7 +556,7 @@ void SelectAlignmentMenu::resetState() {
 	     offsets[0] = (int32_t)stepperAxisMMToSteps(TOOLHEAD_OFFSET_X, 0) - offsets[0];
 }
 
-void SelectAlignmentMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void SelectAlignmentMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
      const prog_uchar *msg = 0;
      switch (index) {
      case 0:
@@ -661,7 +661,7 @@ void FilamentScreen::stopMotor() {
      steppers::setAxisPotValue(axisID, digiPotOnEntry);
 }
 
-void FilamentScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void FilamentScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
         static bool toggle = false;
     	if ( filamentState == FILAMENT_WAIT ) {
 
@@ -854,7 +854,7 @@ void FilamentMenu::resetState() {
 	firstItemIndex = 0;
 }
 
-void FilamentMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void FilamentMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 
 	const prog_uchar *msg;
 
@@ -952,7 +952,7 @@ void MessageScreen::refreshScreen(){
 	needsRedraw = true;
 }
 
-void MessageScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void MessageScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	char* b = message;
 	int ycursor = y;
 	if (timeout.hasElapsed()) {
@@ -1012,7 +1012,7 @@ void JogModeScreen::reset() {
 }
 
 
-void JogModeScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void JogModeScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	//Stop all movement when a button is released
 	if ((jogging) && (!interface::isButtonPressed(ButtonArray::DOWN)) &&
 	    (!interface::isButtonPressed(ButtonArray::UP)))
@@ -1169,7 +1169,7 @@ void FilamentOdometerScreen::reset() {
 
 
 // Print the last build time
-void printLastBuildTime(const prog_uchar *msg, uint8_t row, LiquidCrystalSerial& lcd)
+void printLastBuildTime(const prog_uchar *msg, uint8_t row, VirtualDisplay& lcd)
 {
 	lcd.writeFromPgmspace(msg);
 
@@ -1190,7 +1190,7 @@ void printLastBuildTime(const prog_uchar *msg, uint8_t row, LiquidCrystalSerial&
 // Print the filament used, right justified.  Written in C to save space as it's
 // used 3 times.  Takes filamentUsed in millimeters
 
-void writeFilamentUsed(LiquidCrystalSerial& lcd, float filamentUsed) {
+void writeFilamentUsed(VirtualDisplay& lcd, float filamentUsed) {
 	uint8_t precision;
 
 	filamentUsed /= 1000.0; //convert to meters
@@ -1206,7 +1206,7 @@ void writeFilamentUsed(LiquidCrystalSerial& lcd, float filamentUsed) {
 	lcd.writeFromPgmspace((precision == 1) ? MILLIMETERS_MSG : METERS_MSG);
 }
 
-void filamentOdometers(bool odo, uint8_t yOffset, LiquidCrystalSerial &lcd) {
+void filamentOdometers(bool odo, uint8_t yOffset, VirtualDisplay &lcd) {
 
 	// Get lifetime filament used for A & B axis and sum them
 	// into filamentUsed
@@ -1225,7 +1225,7 @@ void filamentOdometers(bool odo, uint8_t yOffset, LiquidCrystalSerial &lcd) {
 	writeFilamentUsed(lcd, filamentUsedA + filamentUsedB);
 }
 
-void FilamentOdometerScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void FilamentOdometerScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw || needsRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(FILAMENT_ODOMETER_MSG);
@@ -1264,7 +1264,7 @@ void MonitorModeScreen::reset() {
 #endif
 }
 
-void MonitorModeScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void MonitorModeScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 #ifdef ACCEL_STATS
 	const static PROGMEM prog_uchar mon_speed[] = "Acc:                ";
 #endif
@@ -1584,7 +1584,7 @@ void MonitorModeScreen::notifyButtonPressed(ButtonArray::ButtonName button) {
 }
 
 
-void Menu::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void Menu::update(VirtualDisplay& lcd, bool forceRedraw) {
 	// Do we need to redraw the whole menu?
 	if ((itemIndex/LCD_SCREEN_HEIGHT) != (lastDrawIndex/LCD_SCREEN_HEIGHT)
 	    || forceRedraw || needsRedraw) {
@@ -1622,6 +1622,7 @@ void Menu::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
 		lcd.write(LCD_CUSTOM_CHAR_UP);
 	else
 		lcd.write(LCD_CUSTOM_CHAR_RIGHT);
+	
 	lastDrawIndex = itemIndex;
 	lineUpdate = false;
 	needsRedraw = false;
@@ -1757,7 +1758,7 @@ void PreheatSettingsMenu::resetState() {
 	itemIndex = firstItemIndex = 1 + offset;
 }
 
-void PreheatSettingsMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void PreheatSettingsMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 
 	bool selected = selectIndex == index;
 	uint8_t row = index;
@@ -1893,7 +1894,7 @@ void ResetSettingsMenu::resetState() {
 	firstItemIndex = 2;
 }
 
-void ResetSettingsMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void ResetSettingsMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	const prog_uchar *msg;
 	switch (index) {
 	default:
@@ -1999,7 +2000,7 @@ void ProfilesMenu::resetState() {
 	itemIndex = 0;
 }
 
-void ProfilesMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void ProfilesMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	uint8_t buf[PROFILE_NAME_SIZE + 1];
 
 	getProfileName(index, buf);
@@ -2022,7 +2023,7 @@ void ProfileSubMenu::resetState() {
 	firstItemIndex = 0;
 }
 
-void ProfileSubMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void ProfileSubMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	const prog_uchar *msg;
 	switch (index) {
 	default:
@@ -2095,7 +2096,7 @@ void ProfileChangeNameModeScreen::reset() {
 	getProfileName(profileIndex, profileName);
 }
 
-void ProfileChangeNameModeScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void ProfileChangeNameModeScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(PROFILE_PROFILE_NAME_MSG);
@@ -2163,7 +2164,7 @@ void ProfileDisplaySettingsMenu::resetState() {
 	firstItemIndex = 2;
 }
 
-void ProfileDisplaySettingsMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void ProfileDisplaySettingsMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	switch (index) {
 	case 0:
 		lcd.writeString((char *)profileName);
@@ -2206,7 +2207,7 @@ void EepromMenu::resetState() {
 	warningScreen = true;
 }
 
-void EepromMenu::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void EepromMenu::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if ( warningScreen ) {
 		if ( forceRedraw ) {
 			const static PROGMEM prog_uchar msg1[] = "This menu can make";
@@ -2291,7 +2292,7 @@ void EepromMenu::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
 	}
 }
 
-void EepromMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void EepromMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	const prog_uchar *msg;
 	switch (index) {
 	default:
@@ -2385,7 +2386,7 @@ void HomeOffsetsModeScreen::reset() {
      valueChanged = false;
 }
 
-void HomeOffsetsModeScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void HomeOffsetsModeScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
      if ( homeOffsetState != lastHomeOffsetState )
 	  forceRedraw = true;
 
@@ -2485,7 +2486,7 @@ void PauseAtZPosScreen::reset() {
 		pauseAtZPos = stepperAxisStepsToMM(currentPause, Z_AXIS);
 }
 
-void PauseAtZPosScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void PauseAtZPosScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(PAUSE_AT_ZPOS_MSG);
@@ -2549,7 +2550,7 @@ void MaxZDiffScreen::reset() {
      fmax_zdelta = stepperAxisStepsToMM(max_zdelta, Z_AXIS);
 }
 
-void MaxZDiffScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void MaxZDiffScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(ALEVEL_SCREEN_MSG1);
@@ -2620,7 +2621,7 @@ void MaxZProbeHitsScreen::reset() {
      max_zprobe_hits_16 = limit_maxzprobe_hits((int16_t)max_zprobe_hits_8);
 }
 
-void MaxZProbeHitsScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void MaxZProbeHitsScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
      if ( forceRedraw ) {
 	  lcd.clearHomeCursor();
 	  lcd.writeFromPgmspace(MAX_PROBE_HITS_MSG1);
@@ -2679,7 +2680,7 @@ void ChangeSpeedScreen::reset() {
 	alterSpeed = steppers::alterSpeed;
 }
 
-void ChangeSpeedScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void ChangeSpeedScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(CHANGE_SPEED_MSG);
@@ -2746,7 +2747,7 @@ void ChangeTempScreen::getTemp() {
 	}
 }
 
-void ChangeTempScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void ChangeTempScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(CHANGE_TEMP_MSG);
@@ -2811,7 +2812,7 @@ void CoolingFanPwmScreen::reset() {
      else if ( fan_pwm < 0 ) fan_pwm = 0;
 }
 
-void CoolingFanPwmScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void CoolingFanPwmScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
 		lcd.writeFromPgmspace(COOLING_FAN_PWM_MSG);
@@ -2892,7 +2893,7 @@ void ActiveBuildMenu::resetState() {
 	}
 }
 
-void ActiveBuildMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void ActiveBuildMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	const prog_uchar *msg = 0;
 	uint8_t lind = 0;
 
@@ -3064,7 +3065,7 @@ void ActiveBuildMenu::handleSelect(uint8_t index) {
 	}
 }
 
-void BuildStatsScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw){
+void BuildStatsScreen::update(VirtualDisplay& lcd, bool forceRedraw){
 
 	if (forceRedraw) {
 		lcd.clearHomeCursor();
@@ -3173,7 +3174,7 @@ void CancelBuildMenu::resetState() {
 	// state is set by whomever pushed us onto the screen/menu stack
 }
 
-void CancelBuildMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void CancelBuildMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	const prog_uchar *msg;
 
 	switch (index) {
@@ -3227,7 +3228,7 @@ void MainMenu::resetState() {
 	firstItemIndex = 1;
 }
 
-void MainMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void MainMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 
 	const prog_uchar *msg;
 
@@ -3320,7 +3321,7 @@ void UtilitiesMenu::resetState() {
 	stepperEnable = ( axesEnabled ) ? false : true;
 }
 
-void UtilitiesMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void UtilitiesMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
         const prog_uchar *msg = 0;
 	uint8_t lind = 0;
 
@@ -3573,7 +3574,7 @@ void UtilitiesMenu::handleSelect(uint8_t index) {
 	}
 }
 
-void BotStatsScreen::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void BotStatsScreen::update(VirtualDisplay& lcd, bool forceRedraw) {
 	if ( !forceRedraw )
 		return;
 
@@ -3680,7 +3681,7 @@ void SettingsMenu::resetState(){
 #endif
 }
 
-void SettingsMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void SettingsMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
         bool test = false;
 	const prog_uchar *msg;
 	uint8_t selection_column = 16;
@@ -4140,7 +4141,7 @@ void FinishedPrintMenu::resetState() {
 	firstItemIndex = (lastFileIndex != 255) ? 2 : 3;
 }
 
-void FinishedPrintMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void FinishedPrintMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 
 	switch (index) {
 	case 0:
@@ -4202,7 +4203,7 @@ void SDMenu::resetState() {
 	drawItemLockout = false;
 }
 
-void SDMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
+void SDMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	uint8_t idx, filenameLength;
 	uint8_t longFilenameOffset = 0;
 	uint8_t displayWidth = LCD_SCREEN_WIDTH - 1;
@@ -4240,7 +4241,7 @@ void SDMenu::drawItem(uint8_t index, LiquidCrystalSerial& lcd) {
 		lcd.write(' ');
 }
 
-void SDMenu::update(LiquidCrystalSerial& lcd, bool forceRedraw) {
+void SDMenu::update(VirtualDisplay& lcd, bool forceRedraw) {
 	const uint8_t height = LCD_SCREEN_HEIGHT;
 
 	if (( ! forceRedraw ) && ( ! drawItemLockout )) {

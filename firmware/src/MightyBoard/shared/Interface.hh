@@ -30,7 +30,7 @@ namespace interface {
 
 /// Set the current interface board and lcd. This *must* be called before using
 /// any of the functions in this interface.
-void init(InterfaceBoard* board_in, LiquidCrystalSerial* lcd_in);
+void init(InterfaceBoard* board_in, VirtualDisplay* lcd_in);
 
 /// Returns true if the interface board is connected
 bool isConnected();
