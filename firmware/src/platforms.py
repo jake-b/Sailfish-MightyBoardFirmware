@@ -240,9 +240,7 @@ platforms = {
           'defines' : [ 'BUILD_STATS', 'ALTERNATE_UART',
                         'HEATERS_ON_STEROIDS', 'AUTO_LEVEL',
                         'PSTOP_ZMIN_LEVEL',
-                        'EEPROM_MENU_ENABLE' ],
-            'squeeze' : [
-                        '[ os.path.basename(f) for f in glob.glob(\'../../src/MightyBoard/shared/u8glib/*.c\') ]' ],
+                        'EEPROM_MENU_ENABLE' ]
         },
 }
 
