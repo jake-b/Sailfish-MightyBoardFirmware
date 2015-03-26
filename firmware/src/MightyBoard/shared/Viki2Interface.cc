@@ -1,4 +1,4 @@
-/* VikiInterface
+/* Viki2Interface
  *
  * This is an implementation of the communciation routines for the
  * "Visual Kinetic control Interface" or Viki2.
@@ -61,10 +61,10 @@ void Viki2Interface::init() {
     return;
 
   // Configure encoder GPIO pins
-  VIKI_ENC_DDR_A  &= ~(VIKI_ENC_MASK_A); // Set pin as input
-  VIKI_ENC_PORT_A |=   VIKI_ENC_MASK_A;  // Enable pullup
-  VIKI_ENC_DDR_B  &= ~(VIKI_ENC_MASK_B); // Set pin as input
-  VIKI_ENC_PORT_B |=   VIKI_ENC_MASK_B;  // Enable pullup
+  VIKI_ENC_DDR_A  &= ~(VIKI_ENC_MASK_A);	// Set pin as input
+  VIKI_ENC_PORT_A |=   VIKI_ENC_MASK_A; 	// Enable pullup
+  VIKI_ENC_DDR_B  &= ~(VIKI_ENC_MASK_B);	// Set pin as input
+  VIKI_ENC_PORT_B |=   VIKI_ENC_MASK_B; 	// Enable pullup
 
 	// Configure button input
   VIKI_CENTER_BUTTON_DDR &= ~(VIKI_CENTER_BUTTON_MASK); // Set pin as input
