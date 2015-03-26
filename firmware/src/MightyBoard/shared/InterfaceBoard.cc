@@ -5,9 +5,6 @@
 #include "Timeout.hh"
 #include "Command.hh"
 #include "Motherboard.hh"
-#ifdef HAS_VIKI2_INTERFACE
-#include "Viki2Interface.hh"
-#endif
 
 #if defined HAS_INTERFACE_BOARD
 
@@ -60,8 +57,40 @@ void InterfaceBoard::setLED(bool on) {
      else {
 	  INTERFACE_LED_PORT &= ~(INTERFACE_LED);
      }
+#elif defined(HAS_VIKI_INTERFACE)
+     ((VikiInterface &)Motherboard::getBoard().getInterfaceBoard().lcd).setLED(on);
+#elif defined(HAS_VIKI2_INTERFACE)
+     ((Viki2Interface &)Motherboard::getBoard().getInterfaceBoard().lcd).setLED(on);
 #endif
 }
+
+#ifdef HAS_HBP_INDICATOR
+void InterfaceBoard::setHBPIndicator(bool on) {
+#if defined(HAS_VIKI_INTERFACE)
+	((VikiInterface &)Motherboard::getBoard().getInterfaceBoard().lcd).setHBPIndicator(on);
+#elif defined(HAS_VIKI2_INTERFACE)
+	((Viki2Interface &)Motherboard::getBoard().getInterfaceBoard().lcd).setHBPIndicator(on);
+#endif
+}
+#endif
+
+#ifdef HAS_TOOL_INDICATOR
+void InterfaceBoard::setToolIndicator(uint8_t toolID, bool on) {
+#if defined(HAS_VIKI_INTERFACE)
+	((VikiInterface &)Motherboard::getBoard().getInterfaceBoard().lcd).setToolIndicator(toolID, on);
+#elif defined(HAS_VIKI2_INTERFACE)
+	((Viki2Interface &)Motherboard::getBoard().getInterfaceBoard().lcd).setToolIndicator(toolID, on);	
+#endif
+}
+#endif
+
+#ifdef HAS_COOLING_FAN_INDICATOR
+void InterfaceBoard::setCoolingFanIndicator(bool on) {
+#if defined(HAS_VIKI2_INTERFACE)
+	((Viki2Interface &)Motherboard::getBoard().getInterfaceBoard().lcd).setCoolingFanIndicator(on);	
+#endif
+}
+#endif
 
 void InterfaceBoard::doInterrupt() {
      buttons.scanButtons();
@@ -193,9 +222,6 @@ void InterfaceBoard::doUpdate() {
 
         // update build data
         screenStack[screenIndex]->update(lcd, forceRedraw);
-#if HAS_VIKI2_INTERFACE
-				((Viki2Interface*)&lcd)->draw();
-#endif				
     }
 }
 
@@ -218,9 +244,6 @@ void InterfaceBoard::pushScreen(Screen* newScreen) {
 	buttons.setButtonDelay(ButtonArray::SlowDelay);
 	screenStack[screenIndex]->reset();
 	screenStack[screenIndex]->update(lcd, true);
-#if HAS_VIKI2_INTERFACE
-	((Viki2Interface*)&lcd)->draw();
-#endif
 }
 
 void InterfaceBoard::popScreen() {
@@ -231,10 +254,6 @@ void InterfaceBoard::popScreen() {
 	}
 	buttons.setButtonDelay(ButtonArray::SlowDelay);
 	screenStack[screenIndex]->update(lcd, true);
-#if HAS_VIKI2_INTERFACE
-	((Viki2Interface*)&lcd)->draw();
-#endif
-	
 }
 
 

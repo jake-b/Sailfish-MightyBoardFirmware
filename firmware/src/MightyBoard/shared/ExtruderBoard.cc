@@ -14,7 +14,6 @@
  * You should have received a copy of the GNU General Public License
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
-
 #include "Configuration.hh"
 #include "ExtruderBoard.hh"
 #include "HeatingElement.hh"
@@ -26,7 +25,7 @@
 #include <avr/sfr_defs.h>
 #include <avr/io.h>
 
-#if defined(HAS_VIKI_INTERFACE)
+#if defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)
 #include "Motherboard.hh"
 #endif
 
@@ -42,7 +41,7 @@ ExtruderBoard::ExtruderBoard(uint8_t slave_id_in, Pin HeaterPin_In, Pin FanPin_I
      Heater_Pin(HeaterPin_In),
      eeprom_base((uint8_t*)eeprom_base),
      is_disabled(false)
-#if defined(HAS_VIKI_INTERFACE)
+#if (defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)) && defined(HAS_TOOL_INDICATOR)
      , active_heaters(0)
 #endif
 {
@@ -98,7 +97,7 @@ void pwmExA_On(bool on) {
 
 ExtruderHeatingElement::ExtruderHeatingElement(uint8_t id) :
      heater_id(id)
-#if defined(HAS_VIKI_INTERFACE)
+#if (defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)) && defined(HAS_TOOL_INDICATOR)
      , oldLEDstate(false)
 #endif
 {
@@ -129,10 +128,10 @@ void ExtruderHeatingElement::setHeatingElement(uint8_t value) {
 	       }
 	  }
      }
-#if defined(HAS_VIKI_INTERFACE)
+#if (defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)) && defined(HAS_TOOL_INDICATOR)
      bool LEDstate = value != 0;
      if (oldLEDstate != LEDstate) {
-	  ((VikiInterface &)Motherboard::getBoard().getInterfaceBoard()).setToolLED(heater_id, LEDstate);
+	  (Motherboard::getBoard().getInterfaceBoard()).setToolIndicator(heater_id, LEDstate);
 	  oldLEDstate = LEDstate;
      }
 #endif

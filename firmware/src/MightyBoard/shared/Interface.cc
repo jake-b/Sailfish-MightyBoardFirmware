@@ -21,25 +21,19 @@ VirtualDisplay* lcd;
 InterfaceBoard* board;
 
 bool isConnected() {
-	
+    
 #if defined(HAS_I2C_LCD)
-     // the I2C display is detectable on the bus.  If we have
-     // detected such a display, then return true
-     if (((LiquidCrystalSerial_I2C*)lcd)->hasI2CDisplay()) 
-	  return true;
-     else
-	  return false;
+     // Assume a display is listening at the other end of the bus
+	return true;
 #elif defined(HAS_VIKI_INTERFACE)
-     if (((VikiInterface*)lcd)->hasI2CDisplay()) 
-	  return true;  
-     else
-	  return false;
+     // Assume a display is listening at the other end of the bus    
+    return true;  
 #elif defined(HAS_VIKI2_INTERFACE)
-     if (((Viki2Interface*)lcd)->hasI2CDisplay()) 
-	  return true;  
-     else
-	  return false; 
+     // Assume a display is listening at the other end of the bus    
+    return true;
 #else
+     //We can test to see if a standard interface board is connected
+
      // Avoid repeatedly creating temp objects
      const Pin InterfaceDetect = INTERFACE_DETECT;
 
@@ -53,6 +47,7 @@ bool isConnected() {
      // if we are pulled down, then we have an led attached??
      return InterfaceDetect.getValue() ? true : false;
 #endif
+     
 }
 
 void init(InterfaceBoard* board_in, VirtualDisplay* lcd_in) {

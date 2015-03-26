@@ -33,7 +33,7 @@
 #include <stdint.h>
 #include <avr/pgmspace.h>
 #include "Pin.hh"
-
+ 
 // Custom chars
 #define LCD_CUSTOM_CHAR_DOWN 0
 #define LCD_CUSTOM_CHAR_EXTRUDER_NORMAL 2
@@ -102,7 +102,6 @@ public:
   virtual void setCursorExt(int8_t col, int8_t row) = 0;
 
   virtual void write(uint8_t) = 0;
-
 };
 
 #endif // VIRTUAL_DISPLAY_HH

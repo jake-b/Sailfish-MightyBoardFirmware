@@ -27,8 +27,8 @@
 #include <avr/io.h>
 #include <avr/pgmspace.h> 
  
-#ifndef __GLCDFONT_H__
-#define __GLCDFONT_H__
+#ifndef __LCDFONT_H__
+#define __LCDFONT_H__
 
 #define LCD_FONT_WIDTH 6
 #define LCD_FONT_HEIGHT 8

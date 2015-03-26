@@ -37,6 +37,10 @@
 #include "MachineId.hh"
 #endif
 
+#if defined(HAS_VIKI2_DISPLAY)
+#include "Viki2Display.h"
+#endif
+
 //#define HOST_PACKET_TIMEOUT_MS 20
 //#define HOST_PACKET_TIMEOUT_MICROS (1000L*HOST_PACKET_TIMEOUT_MS)
 
@@ -3687,7 +3691,7 @@ void SettingsMenu::drawItem(uint8_t index, VirtualDisplay& lcd) {
 	uint8_t selection_column = 16;
 	uint8_t lind = 0;
 
-	uint8_t row = index % 4;
+	uint8_t row = index % LCD_SCREEN_HEIGHT;
 
 #ifdef DITTO_PRINT
 	if ( index == lind ) {

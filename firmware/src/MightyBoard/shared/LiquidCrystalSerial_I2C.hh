@@ -57,11 +57,8 @@ public:
   LiquidCrystalSerial_I2C();
 
   void init();
-
-  void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
-
+  
   bool setBacklight(bool value);
-  bool hasI2CDisplay();
 
 private:
   void send(uint8_t, bool);
@@ -69,7 +66,6 @@ private:
   void write4bits(uint8_t value, bool dataMode);
   void pulseEnable(uint8_t value);
 
-  bool has_i2c_lcd;
   bool backlight_state;
 };
 

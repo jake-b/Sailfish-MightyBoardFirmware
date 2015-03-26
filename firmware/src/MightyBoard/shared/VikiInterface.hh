@@ -19,8 +19,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>
  */
 
-#ifndef STANDARD_LIQUID_CRYSTAL_HH
-#define STANDARD_LIQUID_CRYSTAL_HH
+#ifndef VIKI_INTERFACE_HH
+#define VIKI_INTERFACE_HH
 
 // TODO: Proper attribution
 
@@ -29,6 +29,10 @@
 #include "Pin.hh"
 #include "LiquidCrystalSerial.hh"
 #include "ButtonArray.hh"
+
+// Capabilities of the VIKI Display.  (HBP and tool LEDs)
+#define HAS_HBP_INDICATOR 1
+#define HAS_TOOL_INDICATOR 1
 
 // Flags for Backlight Control.
 #define LCD_BACKLIGHT_ACTIVE_HIGH
@@ -93,10 +97,10 @@ public:
   void init();
 
   // LCD Public routines
-  bool hasI2CDisplay();
-  void setToolLED(uint8_t toolID, bool state);
-  void setHBPLED(bool state);
+  void setToolIndicator(uint8_t toolID, bool state);
+  void setHBPIndicator(bool state);
   void setBuzzer(bool state);
+  void setCoolingFanIndicator(bool state);
   
   // ButtonArray public routines
   void scanButtons();
@@ -116,7 +120,7 @@ private:
   bool writePortA();
   bool writePortB();
   bool getButtonRegister(uint8_t* buttons);
-  bool has_i2c_lcd;
+
   uint8_t expander_bits[2];
 
 };

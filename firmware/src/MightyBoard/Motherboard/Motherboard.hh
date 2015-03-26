@@ -138,14 +138,13 @@ private:
 	bool hasInterfaceBoard;
 
 #if defined(HAS_I2C_LCD)
-#warn I2C
 	LiquidCrystalSerial_I2C lcd;
 #elif defined(HAS_VIKI_INTERFACE)
-  VikiInterface lcd;
+	VikiInterface lcd;
 #elif defined(HAS_VIKI2_INTERFACE)
 	Viki2Interface lcd;
 #else
-  StandardLiquidCrystalSerial lcd;
+	StandardLiquidCrystalSerial lcd;
 #endif
 
 	MessageScreen messageScreen;    ///< Displayed by user-specified messages

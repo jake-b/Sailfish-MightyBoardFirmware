@@ -76,12 +76,11 @@
 
 // TODO:  make variable names for rs, rw, e places in the output vector
 
-class LiquidCrystalSerial :  public VirtualDisplay {
+class LiquidCrystalSerial : public VirtualDisplay {
 
 public:
   LiquidCrystalSerial();
-  
-  //LiquidCrystalSerial(Pin strobe, Pin data, Pin CLK) = 0;
+
   void begin(uint8_t cols, uint8_t rows,
                      uint8_t charsize = LCD_5x8DOTS);
 
@@ -108,29 +107,12 @@ public:
   void setRow(uint8_t);
   void setCursorExt(int8_t col, int8_t row);
 
-  virtual void write(uint8_t);
-
-  /** Added by MakerBot Industries to support storing strings in flash **/
-  void writeInt(uint16_t value, uint8_t digits);
-  void moveWriteInt(uint8_t col, uint8_t row, uint16_t value, uint8_t digits);
-  void writeInt32(uint32_t value, uint8_t digits);
-  void writeFloat(float value, uint8_t decimalPlaces,
-                  uint8_t rightJustifyToCol);
-
-  void writeString(char message[]);
-
-  /** Display the given line until a newline or null is encountered.
-   * Returns a pointer to the first character not displayed.
-   */
-  char *writeLine(char *message);
-
-  void writeFromPgmspace(const prog_uchar message[]);
-  void moveWriteFromPgmspace(uint8_t col, uint8_t row,
-                             const prog_uchar message[]);
-
+  void write(uint8_t);
+  
+protected:
+  
   void command(uint8_t);
 
-protected:
   /* Sends 8-bits to the HD44780 in two 4-bit transmissions. */  
   virtual void send(uint8_t, bool) = 0;
   

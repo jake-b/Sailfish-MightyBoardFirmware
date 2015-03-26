@@ -32,7 +32,6 @@ class StandardLiquidCrystalSerial : public LiquidCrystalSerial {
 public:
   StandardLiquidCrystalSerial(Pin strobe, Pin data, Pin CLK);
   void init(Pin strobe, Pin data, Pin CLK);
-  void begin(uint8_t cols, uint8_t rows, uint8_t charsize = LCD_5x8DOTS);
 
 private:
   void send(uint8_t, bool);

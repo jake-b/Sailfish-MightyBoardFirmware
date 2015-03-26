@@ -1065,6 +1065,9 @@ void Motherboard::setUsingPlatform(bool is_using) {
 #if defined(COOLING_FAN_PWM)
 
 void Motherboard::setExtra(bool on) {
+#if defined(HAS_VIKI2_INTERFACE) && defined(HAS_COOLING_FAN_INDICATOR)
+	Motherboard::getBoard().getInterfaceBoard().setCoolingFanIndicator(false);
+#endif
      uint16_t fan_pwm; // Will be multiplying 8 bits by 100(decimal)
 
      // Disable any fan PWM handling in Timer 5
@@ -1097,8 +1100,11 @@ void Motherboard::setExtra(bool on) {
 
 #else
 
-void Motherboard::setExtra(bool on) {
-     EXTRA_FET.setValue(on);
+void Motherboard::setExtra(bool on) {	
+    EXTRA_FET.setValue(on);
+#if defined(HAS_VIKI2_INTERFACE) && defined(HAS_COOLING_FAN_INDICATOR)
+	Motherboard::getBoard().getInterfaceBoard().setCoolingFanIndicator(false);
+#endif
 }
 
 #endif
@@ -1115,7 +1121,7 @@ void softpwmHBP(bool on){
 #endif
 
 void BuildPlatformHeatingElement::setHeatingElement(uint8_t value) {
-#if defined(HAS_VIKI_INTERFACE)
+#if (defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)) && defined(HAS_TOOL_INDICATOR)
      static bool oldLEDstate = false;
 #endif
      // This is a bit of a hack to get the temperatures right until we fix our
@@ -1128,10 +1134,10 @@ void BuildPlatformHeatingElement::setHeatingElement(uint8_t value) {
 	  HBP_HEAT.setValue(value != 0);
 #endif
      }
-#if defined(HAS_VIKI_INTERFACE)
+#if (defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)) && defined(HAS_HBP_INDICATOR)
      bool LEDstate = value != 0;
      if (oldLEDstate != LEDstate) {
-	  ((VikiInterface &)Motherboard::getBoard().getInterfaceBoard()).setHBPLED(LEDstate);
+	  (Motherboard::getBoard().getInterfaceBoard()).setHBPIndicator(LEDstate);
 	  oldLEDstate = LEDstate;
      }
 #endif

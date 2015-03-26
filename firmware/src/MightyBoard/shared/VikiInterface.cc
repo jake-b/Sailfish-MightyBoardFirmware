@@ -42,7 +42,6 @@ static int8_t encClicks, encDir, encTurning;
 #endif
 
 VikiInterface::VikiInterface() {
-  has_i2c_lcd = false;
   expander_bits[0] = 0;
   expander_bits[1] = 0;
   previousButtons = A_BUTTONS_MASK;
@@ -109,11 +108,10 @@ void VikiInterface::init() {
 
   // Turn off the LEDs.  They default on, so they will briefly blink
   // during the initialization process.
-  setToolLED(0, false);
-  setToolLED(1, false);
-  setHBPLED(false);
+  setToolIndicator(0, false);
+  setToolIndicator(1, false);
+  setHBPIndicator(false);
 
-  has_i2c_lcd = true;
   initializationComplete = true;
 }
 
@@ -130,7 +128,7 @@ bool VikiInterface::writePortB() {
   return TWI_write_data(VIKI_I2C_DEVICE_ADDRESS << 1, packet, 2);
 }
 
-void VikiInterface::setToolLED(uint8_t toolID, bool state) {
+void VikiInterface::setToolIndicator(uint8_t toolID, bool state) {
   uint8_t pin = toolID ? (A_TOOL1_LED_PIN) : (A_TOOL0_LED_PIN);
   if (!state) {
     expander_bits[0] |= (1 << pin);
@@ -140,7 +138,7 @@ void VikiInterface::setToolLED(uint8_t toolID, bool state) {
   writePortA();
 }
 
-void VikiInterface::setHBPLED(bool state) {
+void VikiInterface::setHBPIndicator(bool state) {
   if (!state) {
     expander_bits[1] |= (1 << (B_HBP_LED_PIN));
   } else {
@@ -157,9 +155,6 @@ void VikiInterface::setBuzzer(bool state) {
   }
   writePortA();
 }
-
-// Return true if we have an LCD connected
-bool VikiInterface::hasI2CDisplay() { return has_i2c_lcd; }
 
 /************ low level data pushing commands **********/
 
@@ -359,3 +354,5 @@ bool VikiInterface::isButtonPressed(ButtonArray::ButtonName button) {
 void VikiInterface::setButtonDelay(micros_t delay) { ButtonDelay = delay; }
 
 void VikiInterface::setLED(bool on) { return; }
+void VikiInterface::setCoolingFanIndicator(bool state) { return; }
+

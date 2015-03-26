@@ -23,7 +23,6 @@
 
 // Electronics type
 #define BOARD_TYPE		BOARD_TYPE_AZTEEG_X3
-#define HAS_VIKI2_INTERFACE	1
 #define ENABLE_I2C_PULLUPS	1
 
 // Swap the Azteeg X3's X & Y min and max endstops
@@ -153,11 +152,11 @@
 //#define PSTOP_PCIE	PCIE1
 //#define PSTOP_VECT	PCINT1_vect
 
-#define PSTOP2_PORT	Pin(PORTK,2)
-#define PSTOP2_MSK	PCMSK2
-#define PSTOP2_PCINT	PCINT18
-#define PSTOP2_PCIE	PCIE2
-#define PSTOP2_VECT	PCINT18_vect
+#define PSTOP2_PORT		Pin(PORTK,4)
+#define PSTOP2_MSK		PCMSK2
+#define PSTOP2_PCINT	PCINT20
+#define PSTOP2_PCIE		PCIE2
+#define PSTOP2_VECT		PCINT20_vect
 
 #define Z_STEPPER_STEP		STEPPER_PORT(L,3)	//active rising edge
 #define Z_STEPPER_DIR		STEPPER_PORT(L,1)	//forward on high
@@ -200,12 +199,18 @@
 #define VIKI_DISPLAY_CS_PORT PORTC
 #define VIKI_DISPLAY_CS_MASK 0b00100000
 #define VIKI_DISPLAY_CS_DDR  DDRC
-#define VIKI_DISPLAY_CS_PN   PN(2,5)  //Used by u8g
 
 #define VIKI_DISPLAY_A0_PORT PORTC
 #define VIKI_DISPLAY_A0_MASK 0b01000000
 #define VIKI_DISPLAY_A0_DDR  DDRC
-#define VIKI_DISPLAY_A0_PN   PN(2,6) //Used by u8g
+
+#define VIKI_DISPLAY_RED_LED_PORT PORTK
+#define VIKI_DISPLAY_RED_LED_MASK 0b00000100
+#define VIKI_DISPLAY_RED_LED_DDR  DDRK
+
+#define VIKI_DISPLAY_BLUE_LED_PORT PORTK
+#define VIKI_DISPLAY_BLUE_LED_MASK 0b00000010
+#define VIKI_DISPLAY_BLUE_LED_DDR  DDRK
 
 #define DIGIPOT_SUPPORT		1
 
@@ -259,11 +264,12 @@
 #define HONOR_DEBUG_PACKETS	0
 
 #define HAS_INTERFACE_BOARD	1
-//#define HAS_VIKI_INTERFACE	1
+// #define HAS_VIKI_INTERFACE	1
+#define HAS_VIKI2_INTERFACE	1
 
 /// Character LCD screen geometry
 #define LCD_SCREEN_WIDTH	20
-#define LCD_SCREEN_HEIGHT	6
+#define LCD_SCREEN_HEIGHT	8
 
 ///// **** HBP and Extruder  ***************/////
 

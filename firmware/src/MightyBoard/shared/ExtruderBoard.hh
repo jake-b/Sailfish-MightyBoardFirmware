@@ -25,6 +25,12 @@
 #include "EepromMap.hh"
 #include "CoolingFan.hh"
 
+#if defined(HAS_VIKI_INTERFACE)
+#include "VikiInterface.hh"  //Needed to #define INDICATOR capabilities
+#elif defined(HAS_VIKI2_INTERFACE)
+#include "Viki2Interface.hh" //Needed to #define INDICATOR capabilities
+#endif
+
 #if defined(USE_THERMOCOUPLE_DUAL)
 #define THERMOCOUPLE_CLASS		DualThermocouple
 #define THERMOCOUPLE_TYPE		uint8_t
@@ -40,7 +46,7 @@ public:
      ExtruderHeatingElement(uint8_t id);
      void setHeatingElement(uint8_t value);
      uint8_t heater_id;
-#if defined(HAS_VIKI_INTERFACE)
+#if defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)
      bool oldLEDstate;
 #endif
 };
@@ -68,7 +74,7 @@ private:
      Pin Heater_Pin;
      uint8_t* eeprom_base;
      bool is_disabled;
-#if defined(HAS_VIKI_INTERFACE)
+#if (defined(HAS_VIKI_INTERFACE) || defined(HAS_VIKI2_INTERFACE)) && defined(HAS_TOOL_INDICATOR)
      uint8_t active_heaters;
 #endif
 

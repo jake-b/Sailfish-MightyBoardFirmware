@@ -32,7 +32,6 @@
 #include "TWI.hh"
 
 LiquidCrystalSerial_I2C::LiquidCrystalSerial_I2C() {
-  has_i2c_lcd = false;
   TWI_init();
   init();
 }
@@ -45,15 +44,11 @@ void LiquidCrystalSerial_I2C::init() {
     // If we were successful in zeroing out the extender, then
     // odds are we have an I2C display connected.
 
-    has_i2c_lcd = true;
     setBacklight(true);
   }
 }
 
 /*........... I2C Specific Stuff */
-
-// Return true if we have an LCD connected
-bool LiquidCrystalSerial_I2C::hasI2CDisplay() { return has_i2c_lcd; }
 
 bool LiquidCrystalSerial_I2C::setBacklight(bool value) {
   // Store the backlight state for later
