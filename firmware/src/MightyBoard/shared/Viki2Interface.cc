@@ -1,9 +1,9 @@
 /* Viki2Interface
  *
  * This is an implementation of the communciation routines for the
- * "Visual Kinetic control Interface" or Viki2.
+ * "Visual Kinetic control Interface v2" or Viki2.
  *
- * http://www.panucatt.com/product_p/vikilcd.htm
+ * http://www.panucatt.com/product_p/vikilcd2.htm
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
